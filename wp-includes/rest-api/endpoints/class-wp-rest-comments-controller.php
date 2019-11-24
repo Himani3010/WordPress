@@ -1584,7 +1584,10 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 	protected function check_read_post_permission( $post, $request ) {
 		$posts_controller = new WP_REST_Posts_Controller( $post->post_type );
 		$post_type        = get_post_type_object( $post->post_type );
-
+		// Return false if custom post type doesn't exist
+		if(is_null($post_type)) {
+			return false;
+		}
 		$has_password_filter = false;
 
 		// Only check password if a specific post was queried for or a single comment
